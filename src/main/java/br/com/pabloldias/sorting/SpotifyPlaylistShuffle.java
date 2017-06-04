@@ -11,12 +11,11 @@ public class SpotifyPlaylistShuffle implements PlaylistSorter {
 	public List<Album> sort(List<Album> albums) {
 		
 		List<Album> sortedAlbums = new ArrayList<>();
-		AlbumListProperties properties = new AlbumListProperties(albums);
+		ListSplitter lists = new ListSplitter(albums);
 		
-		if (albums.size() <= 1) {
-			sortedAlbums.addAll(albums);
-			return sortedAlbums;
-		}
+		//for (int i = ranges.getFirstRangeStart(); i <= ranges.getFirstRangeEnd(); i++) {
+			
+		//}
 		
 		return sortedAlbums;
 	}
