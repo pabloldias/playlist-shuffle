@@ -78,4 +78,5 @@ public class AlbumBuilder {
 
 		return new Album(new Artist("Metronomy"), trackList);
 	}
+	
 }
