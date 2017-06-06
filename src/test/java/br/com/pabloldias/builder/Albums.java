@@ -4,12 +4,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import br.com.pabloldias.playlist.Album;
-import br.com.pabloldias.playlist.Artist;
 import br.com.pabloldias.playlist.Track;
 
-public class AlbumBuilder {
+public class Albums {
 
-	public static Album getAchtungBaby() {
+	public static Album achtungBaby() {
 		List<Track> trackList = Arrays.asList(
 				new Track("Zoo Station"),
 				new Track("Even Better Than the Real Thing"),
@@ -24,10 +23,10 @@ public class AlbumBuilder {
 				new Track("Acrobat"),
 				new Track("Love Is Blindness"));
 		
-		return new Album(new Artist("U2"), trackList);
+		return new Album(Artists.u2(), trackList);
 	}
 
-	public static Album getMarqueeMoon() {
+	public static Album marqueeMoon() {
 		List<Track> trackList = Arrays.asList(
 				new Track("See No Evil"),
 				new Track("Venus"),
@@ -38,10 +37,10 @@ public class AlbumBuilder {
 				new Track("Prove It"),
 				new Track("Torn Curtain"));
 		
-		return new Album(new Artist("Television"), trackList);
+		return new Album(Artists.television(), trackList);
 	}
 	
-	public static Album getMiloGoesToCollege() {
+	public static Album miloGoesToCollege() {
 		List<Track> trackList = Arrays.asList(
 				new Track("Myage"),
 				new Track("I Wanna Be A Bear"),
@@ -59,10 +58,10 @@ public class AlbumBuilder {
 				new Track("Bikeage"),
 				new Track("Jean Is Dead"));
 		
-		return new Album(new Artist("Descendents"), trackList);
+		return new Album(Artists.descendents(), trackList);
 	}
 
-	public static Album getTheEnglishRiviera() {
+	public static Album theEnglishRiviera() {
 		List<Track> trackList = Arrays.asList(
 				new Track("The English Riviera"), 
 				new Track("We Broke Free"),
@@ -76,7 +75,24 @@ public class AlbumBuilder {
 				new Track("Some Written"), 
 				new Track("Love Underlined"));
 
-		return new Album(new Artist("Metronomy"), trackList);
+		return new Album(Artists.metronomy(), trackList);
+	}
+	
+	public static Album theJoshuaTree() {
+		List<Track> tracklist = Arrays.asList(
+				new Track("Where The Streets Have No Name"),
+				new Track("I Still Haven't Found What I'm Looking For"),
+				new Track("With Or Without You"),
+				new Track("Bullet The Blue Sky"),
+				new Track("Running To Stand Still"),
+				new Track("Red Hill Mining Town"),
+				new Track("In God's Country"),
+				new Track("Trip Through Your Wires"),
+				new Track("One Tree Hill"),
+				new Track("Exit"),
+				new Track("Mothers Of The Disappeared"));
+		
+		return new Album(Artists.u2(), tracklist);
 	}
 	
 }

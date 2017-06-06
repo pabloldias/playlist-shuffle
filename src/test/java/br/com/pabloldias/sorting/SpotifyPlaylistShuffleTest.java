@@ -7,7 +7,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-import br.com.pabloldias.builder.AlbumBuilder;
+import br.com.pabloldias.builder.Albums;
 import br.com.pabloldias.playlist.Album;
 
 public class SpotifyPlaylistShuffleTest {
@@ -15,9 +15,9 @@ public class SpotifyPlaylistShuffleTest {
 	@Test
 	public void shufflePlaylistWithAnUniqueAlbum() {
 		List<Album> expectedPlaylist = Arrays.asList(
-				AlbumBuilder.getAchtungBaby());
+				Albums.achtungBaby());
 		List<Album> originalPlaylist = Arrays.asList(
-				AlbumBuilder.getAchtungBaby());
+				Albums.achtungBaby());
 
 		PlaylistSorter sorter = new SpotifyPlaylistShuffle();
 		List<Album> actualPlaylist = sorter.sort(originalPlaylist);
@@ -28,12 +28,12 @@ public class SpotifyPlaylistShuffleTest {
 	@Test
 	public void shufflePlaylistWithTwoAlbums() {	
 		List<Album> originalPlaylist = Arrays.asList(
-				AlbumBuilder.getMarqueeMoon(),
-				AlbumBuilder.getAchtungBaby());
+				Albums.marqueeMoon(),
+				Albums.achtungBaby());
 
 		List<Album> expectedPlaylist = Arrays.asList(
-				AlbumBuilder.getAchtungBaby(),
-				AlbumBuilder.getMarqueeMoon());
+				Albums.achtungBaby(),
+				Albums.marqueeMoon());
 		
 		PlaylistSorter sorter = new SpotifyPlaylistShuffle();	
 		List<Album> actualPlaylist = sorter.sort(originalPlaylist);
@@ -44,14 +44,14 @@ public class SpotifyPlaylistShuffleTest {
 	@Test
 	public void shufflePlaylistWithThreeAlbums() {	
 		List<Album> originalPlaylist = Arrays.asList(
-				AlbumBuilder.getMarqueeMoon(),
-				AlbumBuilder.getAchtungBaby(),
-				AlbumBuilder.getMiloGoesToCollege());
+				Albums.marqueeMoon(),
+				Albums.achtungBaby(),
+				Albums.miloGoesToCollege());
 
 		List<Album> expectedPlaylist = Arrays.asList(
-				AlbumBuilder.getAchtungBaby(),
-				AlbumBuilder.getMarqueeMoon(),
-				AlbumBuilder.getMiloGoesToCollege());
+				Albums.achtungBaby(),
+				Albums.marqueeMoon(),
+				Albums.miloGoesToCollege());
 		
 		PlaylistSorter sorter = new SpotifyPlaylistShuffle();	
 		List<Album> actualPlaylist = sorter.sort(originalPlaylist);
@@ -62,16 +62,16 @@ public class SpotifyPlaylistShuffleTest {
 	@Test
 	public void shufflePlaylistWithFourAlbums() {	
 		List<Album> originalPlaylist = Arrays.asList(
-				AlbumBuilder.getMarqueeMoon(),
-				AlbumBuilder.getAchtungBaby(),
-				AlbumBuilder.getMiloGoesToCollege(),
-				AlbumBuilder.getTheEnglishRiviera());
+				Albums.marqueeMoon(),
+				Albums.achtungBaby(),
+				Albums.miloGoesToCollege(),
+				Albums.theEnglishRiviera());
 
 		List<Album> expectedPlaylist = Arrays.asList(
-				AlbumBuilder.getMiloGoesToCollege(),
-				AlbumBuilder.getMarqueeMoon(),
-				AlbumBuilder.getTheEnglishRiviera(),
-				AlbumBuilder.getAchtungBaby());
+				Albums.miloGoesToCollege(),
+				Albums.marqueeMoon(),
+				Albums.theEnglishRiviera(),
+				Albums.achtungBaby());
 		
 		PlaylistSorter sorter = new SpotifyPlaylistShuffle();	
 		List<Album> actualPlaylist = sorter.sort(originalPlaylist);
