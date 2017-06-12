@@ -1,6 +1,7 @@
 package br.com.pabloldias.api;
 
 import java.util.List;
+import java.util.Properties;
 
 import com.wrapper.spotify.Api;
 import com.wrapper.spotify.HttpManager;
@@ -14,19 +15,28 @@ import com.wrapper.spotify.models.SimplePlaylist;
 
 public class Authenticator {
 
+	private static final String CLIENT_ID = "clientId";
+	private static final String CLIENT_SECRET = "clientSecret";
+	private static final String USER_ID = "userId";
+
 	private final int portion = 10;
+	
+	private Api api;
+	private String accessToken;
+	private Properties properties;
+
+	public Authenticator(Properties properties) {
+		this.properties = properties;
+	}
 
 	public void authenticate() {
 
 		try {
 
-			final String clientId = "";
-			final String clientSecret = "";
-			final String userId = "";
-
-			final Api api = Api.builder().clientId(clientId).clientSecret(clientSecret).build();
-
-			UserPlaylistsRequest.Builder playlistBuilder = api.getPlaylistsForUser(userId);
+			api = Api.builder()
+					.clientId(properties.getProperty(CLIENT_ID))
+					.clientSecret(properties.getProperty(CLIENT_SECRET))
+					.build();
 
 			HttpManager httpManager = SpotifyHttpManager.builder().build();
 
@@ -34,9 +44,13 @@ public class Authenticator {
 					.httpManager(httpManager).build();
 
 			ClientCredentials clientCredentials = clientCredentialsGrantRequest.get();
-			api.setAccessToken(clientCredentials.getAccessToken());
+			accessToken = clientCredentials.getAccessToken();
+			api.setAccessToken(accessToken);
 
-			UserPlaylistsRequest userPlaylistsRequest = playlistBuilder.accessToken(clientCredentials.getAccessToken())
+			String userId = properties.getProperty(USER_ID);
+			UserPlaylistsRequest.Builder playlistBuilder = api.getPlaylistsForUser(userId);
+
+			UserPlaylistsRequest userPlaylistsRequest = playlistBuilder.accessToken(accessToken)
 					.limit(portion).build();
 
 			int offset = 0;
@@ -64,13 +78,21 @@ public class Authenticator {
 				} else {
 					offset += portion;
 					userPlaylistsRequest = api.getPlaylistsForUser(userId)
-							.accessToken(clientCredentials.getAccessToken()).limit(portion).offset(offset).build();
+							.accessToken(accessToken).limit(portion).offset(offset).build();
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
+	}
+
+	public Api getApi() {
+		return api;
+	}
+	
+	public String getAccessToken() {
+		return accessToken;
 	}
 
 }
