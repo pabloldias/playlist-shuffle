@@ -5,31 +5,67 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Properties;
 
+import com.wrapper.spotify.Api;
+import com.wrapper.spotify.HttpManager;
+import com.wrapper.spotify.SpotifyHttpManager;
 import com.wrapper.spotify.exceptions.WebApiException;
 import com.wrapper.spotify.methods.PlaylistRequest;
 import com.wrapper.spotify.methods.UserPlaylistsRequest;
+import com.wrapper.spotify.methods.authentication.ClientCredentialsGrantRequest;
+import com.wrapper.spotify.models.ClientCredentials;
 import com.wrapper.spotify.models.Page;
 import com.wrapper.spotify.models.Playlist;
 import com.wrapper.spotify.models.SimplePlaylist;
 
-import br.com.pabloldias.api.Authenticator;
-
 public class PlaylistShuffler {
 
+	private static final String CLIENT_ID = "clientId";
+	private static final String CLIENT_SECRET = "clientSecret";
+	private static final String USER_ID = "userId";
+
 	private final int portion = 10;
+	
+	private Api api;
+	private String userId;
+	private String accessToken;
 
 	public void shuffle() {
-		Authenticator auth = new Authenticator(getProperties());
-		listPlaylists(auth);
+		authenticate();
+		listPlaylists();
 	}
 
-	private void listPlaylists(Authenticator auth) {
+	private void authenticate() {
+		Properties properties = getProperties();
+		userId = properties.getProperty(USER_ID);
+		buildApi(properties);
+	}
+	
+	private void buildApi(Properties properties) {
 		try {
 
-			String userId = auth.getUserId();
-			UserPlaylistsRequest.Builder playlistBuilder = auth.getApi().getPlaylistsForUser(userId);
+			api = Api.builder()
+					.clientId(properties.getProperty(CLIENT_ID))
+					.clientSecret(properties.getProperty(CLIENT_SECRET))
+					.build();
 
-			UserPlaylistsRequest userPlaylistsRequest = playlistBuilder.accessToken(auth.getAccessToken())
+			HttpManager httpManager = SpotifyHttpManager.builder().build();
+
+			final ClientCredentialsGrantRequest clientCredentialsGrantRequest = api.clientCredentialsGrant()
+					.httpManager(httpManager).build();
+
+			ClientCredentials clientCredentials = clientCredentialsGrantRequest.get();
+			accessToken = clientCredentials.getAccessToken();
+			api.setAccessToken(accessToken);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void listPlaylists() {
+		try {
+			UserPlaylistsRequest.Builder playlistBuilder = api.getPlaylistsForUser(userId);
+
+			UserPlaylistsRequest userPlaylistsRequest = playlistBuilder.accessToken(accessToken)
 					.limit(portion).build();
 
 			int offset = 0;
@@ -42,14 +78,15 @@ public class PlaylistShuffler {
 				for (SimplePlaylist simplePlaylist : simplePlaylists) {
 					String playListId = simplePlaylist.getId();
 
-					PlaylistRequest playlistRequest = auth.getApi()
-							.getPlaylist(simplePlaylist.getOwner().getId(), playListId).build();
+					PlaylistRequest playlistRequest = api
+							.getPlaylist(simplePlaylist.getOwner().getId(), playListId)
+							.build();
 					try {
 						System.out.println(String.format("Getting playlist with name '%s' owner: '%s' (%s)",
 								simplePlaylist.getName(), 
 								simplePlaylist.getOwner().getId(),
 								simplePlaylist.getId()));
-						Playlist playlist = playlistRequest.get();
+						//Playlist playlist = playlistRequest.get();
 					} catch (Exception e) {
 						// suppress
 					}
@@ -58,7 +95,8 @@ public class PlaylistShuffler {
 					isLastPage = true;
 				} else {
 					offset += portion;
-					userPlaylistsRequest = auth.getApi().getPlaylistsForUser(userId).accessToken(auth.getAccessToken())
+					userPlaylistsRequest = api.getPlaylistsForUser(userId)
+							.accessToken(accessToken)
 							.limit(portion).offset(offset).build();
 				}
 			}
