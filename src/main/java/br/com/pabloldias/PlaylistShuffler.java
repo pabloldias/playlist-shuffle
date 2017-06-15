@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.util.Optional;
 import java.util.Properties;
 
+import org.springframework.stereotype.Component;
+
 import com.wrapper.spotify.Api;
 import com.wrapper.spotify.HttpManager;
 import com.wrapper.spotify.SpotifyHttpManager;
@@ -15,6 +17,7 @@ import com.wrapper.spotify.models.ClientCredentials;
 import com.wrapper.spotify.models.Page;
 import com.wrapper.spotify.models.SimplePlaylist;
 
+@Component
 public class PlaylistShuffler {
 
 	private static final String CLIENT_ID = "clientId";
