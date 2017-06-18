@@ -1,10 +1,9 @@
 package br.com.pabloldias;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Optional;
-import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.wrapper.spotify.Api;
@@ -19,39 +18,28 @@ import com.wrapper.spotify.models.SimplePlaylist;
 
 @Component
 public class PlaylistShuffler {
-
-	private static final String CLIENT_ID = "clientId";
-	private static final String CLIENT_SECRET = "clientSecret";
-	private static final String USER_ID = "userId";
-	private static final String PLAYLIST_NAME = "playlistName";
 	
 	private Api api;
-	private String userId;
 	private String accessToken;
-	private Object playlistName;
+	
+	@Autowired
+	private AppProperties properties;
 
 	public void shuffle() {
-		authenticate();
+		buildApi();
 		Optional<SimplePlaylist> playlist = findPlaylist();
 		if (playlist.isPresent()) {
 			SimplePlaylist newPlaylist = copyPlaylist(playlist.get());
 			shufflePlaylist(newPlaylist);
 		}
 	}
-
-	private void authenticate() {
-		Properties properties = getProperties();
-		userId = properties.getProperty(USER_ID);
-		playlistName = properties.getProperty(PLAYLIST_NAME);
-		buildApi(properties);
-	}
 	
-	private void buildApi(Properties properties) {
+	private void buildApi() {
 		try {
 
 			api = Api.builder()
-					.clientId(properties.getProperty(CLIENT_ID))
-					.clientSecret(properties.getProperty(CLIENT_SECRET))
+					.clientId(properties.getClientId())
+					.clientSecret(properties.getClientSecret())
 					.build();
 
 			HttpManager httpManager = SpotifyHttpManager.builder().build();
@@ -68,7 +56,7 @@ public class PlaylistShuffler {
 	}
 	
 	private Optional<SimplePlaylist> findPlaylist() {
-		UserPlaylistsRequest.Builder playlistBuilder = api.getPlaylistsForUser(userId);
+		UserPlaylistsRequest.Builder playlistBuilder = api.getPlaylistsForUser(properties.getUserId());
 		UserPlaylistsRequest userPlaylistsRequest = playlistBuilder.accessToken(accessToken).build();
 		Page<SimplePlaylist> playlistsPage = new Page<>();
 		try {
@@ -77,6 +65,7 @@ public class PlaylistShuffler {
 			e.printStackTrace();
 		}
 
+		String playlistName = properties.getPlaylistName(); 
 		for (SimplePlaylist playlist : playlistsPage.getItems()) {
 			if (playlistName.equals(playlist.getName())) {
 				return Optional.of(playlist);
@@ -93,18 +82,6 @@ public class PlaylistShuffler {
 	
 	private void shufflePlaylist(SimplePlaylist newPlaylist) {
 		// TODO Auto-generated method stub
-	}
-
-	private Properties getProperties() {
-		String authFile = "auth.properties";
-		ClassLoader loader = Thread.currentThread().getContextClassLoader();
-		Properties properties = new Properties();
-		try (InputStream resourceStream = loader.getResourceAsStream(authFile)) {
-			properties.load(resourceStream);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return properties;
 	}
 
 }
