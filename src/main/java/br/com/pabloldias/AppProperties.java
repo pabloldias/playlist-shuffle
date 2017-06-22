@@ -13,6 +13,8 @@ public class AppProperties {
 	private String clientSecret;
 	private String userId;
 	private String playlistName;
+	private String redirectURI;
+	private String state;
 	
 	public String getClientId() {
 		return clientId;
@@ -37,6 +39,18 @@ public class AppProperties {
 	}
 	public void setPlaylistName(String playlistName) {
 		this.playlistName = playlistName;
+	}
+	public String getRedirectURI() {
+		return redirectURI;
+	}
+	public void setRedirectURI(String redirectURI) {
+		this.redirectURI = redirectURI;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
 	}
 		
 }

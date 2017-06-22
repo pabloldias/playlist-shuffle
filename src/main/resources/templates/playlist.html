@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Playlist Shuffle</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>    
+    <h1>Playlist Shuffle</h1>
+    <form action="#" th:action="@{/playlist}" th:object="${playlistInfo}" method="post">
+    	<p>Original playlist: 
+    		<select th:field="*{originalPlaylist}">
+    			<option value="0" th:text="Selecione" ></option>
+    			<option th:each="playlist : ${playlists}" th:value="${playlist.id}" th:text="${playlist.name}"></option>
+    		</select>
+    	</p>
+    	<p>New name: <input type="text" th:field="*{name}" /></p>
+        <input type="hidden" th:field="*{authenticationCode}" />
+        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+    </form>
+</body>
+</html>
