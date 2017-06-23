@@ -35,7 +35,7 @@ public class HomeController {
     }
     
     @GetMapping("/playlist")
-    public String playlist(@RequestParam(value="code") String code, Model model) {
+    public String playlist(@RequestParam(value="code", required=false) String code, Model model) {
     	model.addAttribute("playlists", spotifyService.getPlaylists());
     	model.addAttribute("playlistInfo", new PlaylistInfo(code));
     	return "playlist";
@@ -44,7 +44,7 @@ public class HomeController {
     @PostMapping("/playlist")
     public String createPlaylist(@ModelAttribute PlaylistInfo playlistInfo, Model model) {
     	System.out.println(playlistInfo);
-    	spotifyService.createPlaylist(playlistInfo);
+    	spotifyService.createNewPlaylist(playlistInfo);
     	return "playlist";
     }
     

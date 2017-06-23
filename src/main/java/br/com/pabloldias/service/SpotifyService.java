@@ -1,9 +1,11 @@
 package br.com.pabloldias.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,13 +15,16 @@ import com.wrapper.spotify.Api;
 import com.wrapper.spotify.HttpManager;
 import com.wrapper.spotify.SpotifyHttpManager;
 import com.wrapper.spotify.exceptions.WebApiException;
+import com.wrapper.spotify.methods.AddTrackToPlaylistRequest;
 import com.wrapper.spotify.methods.PlaylistCreationRequest;
+import com.wrapper.spotify.methods.PlaylistTracksRequest;
 import com.wrapper.spotify.methods.UserPlaylistsRequest;
 import com.wrapper.spotify.methods.authentication.ClientCredentialsGrantRequest;
 import com.wrapper.spotify.models.AuthorizationCodeCredentials;
 import com.wrapper.spotify.models.ClientCredentials;
 import com.wrapper.spotify.models.Page;
 import com.wrapper.spotify.models.Playlist;
+import com.wrapper.spotify.models.PlaylistTrack;
 import com.wrapper.spotify.models.SimplePlaylist;
 
 import br.com.pabloldias.AppProperties;
@@ -88,18 +93,56 @@ public class SpotifyService {
 		return Collections.emptyList();
 	}
 
-	public void createPlaylist(PlaylistInfo playlistInfo) {
+	public void createNewPlaylist(PlaylistInfo playlistInfo) {
 		authorize(playlistInfo.getAuthenticationCode());
-		PlaylistCreationRequest playlistCreationRequest = api
-				.createPlaylist(properties.getUserId(), playlistInfo.getName())
-				.publicAccess(true)
+		Optional<Playlist> newPlaylist = createPlaylist(playlistInfo);
+		if (newPlaylist.isPresent()) {
+			addTracks(newPlaylist.get(), getPlaylistTracks(playlistInfo));
+		}
+
+	}
+
+	private void addTracks(Playlist playlist, List<PlaylistTrack> playlistTracks) {
+		List<String> tracksToAdd = new ArrayList<>();
+		for (PlaylistTrack playlistTrack : playlistTracks) {
+			tracksToAdd.add(playlistTrack.getTrack().getUri());
+		}
+
+		final AddTrackToPlaylistRequest request = api
+				.addTracksToPlaylist(properties.getUserId(), playlist.getId(), tracksToAdd)
+				.position(0)
 				.build();
+		  
 		try {
-			Playlist playlist = playlistCreationRequest.get();
-			System.out.println("Criada a playlist " + playlist.getId());
+			request.get();
 		} catch (IOException | WebApiException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private List<PlaylistTrack> getPlaylistTracks(PlaylistInfo playlistInfo) {
+		final PlaylistTracksRequest request = api
+				.getPlaylistTracks(properties.getUserId(), playlistInfo.getOriginalPlaylist()).build();
+
+		Page<PlaylistTrack> page;
+		try {
+			page = request.get();
+			return page.getItems();
+		} catch (IOException | WebApiException e) {
+			e.printStackTrace();
+		}
+		return Collections.emptyList();
+	}
+
+	private Optional<Playlist> createPlaylist(PlaylistInfo playlistInfo) {
+		PlaylistCreationRequest playlistCreationRequest = api
+				.createPlaylist(properties.getUserId(), playlistInfo.getName()).publicAccess(true).build();
+		try {
+			return Optional.of(playlistCreationRequest.get());
+		} catch (IOException | WebApiException e) {
+			e.printStackTrace();
+		}
+		return Optional.empty();
 	}
 
 	private void authorize(String authenticationCode) {
