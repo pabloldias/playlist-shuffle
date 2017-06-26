@@ -103,7 +103,7 @@ public class SpotifyService {
 	}
 
 	private void addTracks(Playlist playlist, List<PlaylistTrack> playlistTracks) {
-		List<String> tracksToAdd = new ArrayList<>();
+		List<String> tracksToAdd = new ArrayList<>(playlistTracks.size());
 		for (PlaylistTrack playlistTrack : playlistTracks) {
 			tracksToAdd.add(playlistTrack.getTrack().getUri());
 		}
@@ -116,22 +116,39 @@ public class SpotifyService {
 		try {
 			request.get();
 		} catch (IOException | WebApiException e) {
+			System.out.println(e);
 			e.printStackTrace();
 		}
 	}
 
 	private List<PlaylistTrack> getPlaylistTracks(PlaylistInfo playlistInfo) {
-		final PlaylistTracksRequest request = api
-				.getPlaylistTracks(properties.getUserId(), playlistInfo.getOriginalPlaylist()).build();
-
+		Integer pageSize = 100;
+		Integer offset = 0;
+		PlaylistTracksRequest request;
+		List<PlaylistTrack> tracks = new ArrayList<>();
 		Page<PlaylistTrack> page;
-		try {
-			page = request.get();
-			return page.getItems();
-		} catch (IOException | WebApiException e) {
-			e.printStackTrace();
+		Boolean hasPages = true;
+				
+		while (hasPages) {
+			request = api
+					.getPlaylistTracks(properties.getUserId(), playlistInfo.getOriginalPlaylist())
+					.limit(pageSize)
+					.offset(offset)
+					.build();
+			try {
+				page = request.get();
+				tracks.addAll(page.getItems());
+				offset += pageSize;
+				if (page.getNext() == null) {
+					hasPages = false;					
+				}
+				System.out.println(page.getNext());
+			} catch (IOException | WebApiException e) {
+				e.printStackTrace();
+			}
 		}
-		return Collections.emptyList();
+		
+		return tracks;
 	}
 
 	private Optional<Playlist> createPlaylist(PlaylistInfo playlistInfo) {
