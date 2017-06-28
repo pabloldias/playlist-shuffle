@@ -33,6 +33,8 @@ import br.com.pabloldias.playlist.PlaylistInfo;
 @Service
 public class SpotifyService {
 
+	private static final Integer PAGE_SIZE = 100;
+
 	@Autowired
 	private AppProperties properties;
 
@@ -103,26 +105,24 @@ public class SpotifyService {
 	}
 
 	private void addTracks(Playlist playlist, List<PlaylistTrack> playlistTracks) {
-		List<String> tracksToAdd = new ArrayList<>(playlistTracks.size());
-		for (PlaylistTrack playlistTrack : playlistTracks) {
-			tracksToAdd.add(playlistTrack.getTrack().getUri());
-		}
+		List<String> tracksToAdd = getTrackUris(playlistTracks);
 		
-		Integer pageSize = 100;
 		Integer offset = 0;
 		AddTrackToPlaylistRequest request;
 		Boolean hasPages = true;
-				
+
+		System.out.println(tracksToAdd.size());
 		while (hasPages) {
 			request = api
-					.addTracksToPlaylist(properties.getUserId(), playlist.getId(), tracksToAdd.subList(offset, offset + pageSize))
+					.addTracksToPlaylist(properties.getUserId(), playlist.getId(), getPageTracks(tracksToAdd, offset))
 					.build();
 			try {
 				request.get();
-				offset += pageSize;
+				offset += PAGE_SIZE;
 				if (offset > tracksToAdd.size()) {
 					hasPages = false;					
 				}
+				System.out.println(offset);
 			} catch (IOException | WebApiException e) {
 				e.printStackTrace();
 			}
@@ -130,8 +130,19 @@ public class SpotifyService {
 
 	}
 
+	private List<String> getPageTracks(List<String> tracksToAdd, Integer offset) {
+		return tracksToAdd.subList(offset, Math.min(offset + PAGE_SIZE, tracksToAdd.size()));
+	}
+
+	private List<String> getTrackUris(List<PlaylistTrack> playlistTracks) {
+		List<String> tracksToAdd = new ArrayList<>(playlistTracks.size());
+		for (PlaylistTrack playlistTrack : playlistTracks) {
+			tracksToAdd.add(playlistTrack.getTrack().getUri());
+		}
+		return tracksToAdd;
+	}
+
 	private List<PlaylistTrack> getPlaylistTracks(PlaylistInfo playlistInfo) {
-		Integer pageSize = 100;
 		Integer offset = 0;
 		PlaylistTracksRequest request;
 		List<PlaylistTrack> tracks = new ArrayList<>();
@@ -141,17 +152,16 @@ public class SpotifyService {
 		while (hasPages) {
 			request = api
 					.getPlaylistTracks(properties.getUserId(), playlistInfo.getOriginalPlaylist())
-					.limit(pageSize)
+					.limit(PAGE_SIZE)
 					.offset(offset)
 					.build();
 			try {
 				page = request.get();
 				tracks.addAll(page.getItems());
-				offset += pageSize;
+				offset += PAGE_SIZE;
 				if (page.getNext() == null) {
 					hasPages = false;					
 				}
-				System.out.println(page.getNext());
 			} catch (IOException | WebApiException e) {
 				e.printStackTrace();
 			}
