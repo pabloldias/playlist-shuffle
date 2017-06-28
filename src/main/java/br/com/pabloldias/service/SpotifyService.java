@@ -107,18 +107,27 @@ public class SpotifyService {
 		for (PlaylistTrack playlistTrack : playlistTracks) {
 			tracksToAdd.add(playlistTrack.getTrack().getUri());
 		}
-
-		final AddTrackToPlaylistRequest request = api
-				.addTracksToPlaylist(properties.getUserId(), playlist.getId(), tracksToAdd)
-				.position(0)
-				.build();
-		  
-		try {
-			request.get();
-		} catch (IOException | WebApiException e) {
-			System.out.println(e);
-			e.printStackTrace();
+		
+		Integer pageSize = 100;
+		Integer offset = 0;
+		AddTrackToPlaylistRequest request;
+		Boolean hasPages = true;
+				
+		while (hasPages) {
+			request = api
+					.addTracksToPlaylist(properties.getUserId(), playlist.getId(), tracksToAdd.subList(offset, offset + pageSize))
+					.build();
+			try {
+				request.get();
+				offset += pageSize;
+				if (offset > tracksToAdd.size()) {
+					hasPages = false;					
+				}
+			} catch (IOException | WebApiException e) {
+				e.printStackTrace();
+			}
 		}
+
 	}
 
 	private List<PlaylistTrack> getPlaylistTracks(PlaylistInfo playlistInfo) {
