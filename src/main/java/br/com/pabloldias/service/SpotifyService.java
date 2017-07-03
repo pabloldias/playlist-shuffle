@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import com.wrapper.spotify.Api;
@@ -41,13 +40,7 @@ public class SpotifyService {
 	@Autowired
 	private Api api;
 
-	@Bean
-	public Api buildApi() {
-		return Api.builder().clientId(properties.getClientId()).clientSecret(properties.getClientSecret())
-				.redirectURI(properties.getRedirectURI()).build();
-	}
-
-	public String getAccessToken(Api api) {
+	private String getAccessToken() {
 		HttpManager httpManager = SpotifyHttpManager.builder().build();
 
 		final ClientCredentialsGrantRequest clientCredentialsGrantRequest = api.clientCredentialsGrant()
@@ -84,7 +77,7 @@ public class SpotifyService {
 
 	public List<SimplePlaylist> getPlaylists() {
 		UserPlaylistsRequest.Builder playlistBuilder = api.getPlaylistsForUser(properties.getUserId());
-		UserPlaylistsRequest userPlaylistsRequest = playlistBuilder.accessToken(getAccessToken(api)).build();
+		UserPlaylistsRequest userPlaylistsRequest = playlistBuilder.accessToken(getAccessToken()).build();
 		Page<SimplePlaylist> playlistsPage = new Page<>();
 		try {
 			playlistsPage = userPlaylistsRequest.get();
