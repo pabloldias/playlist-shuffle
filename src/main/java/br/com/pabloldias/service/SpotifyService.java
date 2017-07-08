@@ -28,6 +28,7 @@ import com.wrapper.spotify.models.SimplePlaylist;
 
 import br.com.pabloldias.AppProperties;
 import br.com.pabloldias.playlist.PlaylistInfo;
+import br.com.pabloldias.sorting.PlaylistSorter;
 
 @Service
 public class SpotifyService {
@@ -39,6 +40,9 @@ public class SpotifyService {
 
 	@Autowired
 	private Api api;
+	
+	@Autowired
+	PlaylistSorter sorter;
 
 	private String getAccessToken() {
 		HttpManager httpManager = SpotifyHttpManager.builder().build();
@@ -92,7 +96,8 @@ public class SpotifyService {
 		authorize(playlistInfo.getAuthenticationCode());
 		Optional<Playlist> newPlaylist = createPlaylist(playlistInfo);
 		if (newPlaylist.isPresent()) {
-			addTracks(newPlaylist.get(), getPlaylistTracks(playlistInfo));
+			List<PlaylistTrack> playlistTracks = getPlaylistTracks(playlistInfo);
+			addTracks(newPlaylist.get(), sorter.sort(playlistTracks));
 		}
 
 	}

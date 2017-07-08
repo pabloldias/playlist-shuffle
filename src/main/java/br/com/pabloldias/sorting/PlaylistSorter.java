@@ -2,10 +2,10 @@ package br.com.pabloldias.sorting;
 
 import java.util.List;
 
-import br.com.pabloldias.playlist.Album;
+import com.wrapper.spotify.models.PlaylistTrack;
 
 public interface PlaylistSorter {
-	
-	List<Album> sort(List<Album> albums);
+
+	List<PlaylistTrack> sort(List<PlaylistTrack> playlistTracks);
 
 }

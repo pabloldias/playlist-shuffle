@@ -1,15 +1,12 @@
 package br.com.pabloldias.builder;
 
-import java.util.Arrays;
-import java.util.List;
-
-import br.com.pabloldias.playlist.Album;
-import br.com.pabloldias.playlist.Track;
+import com.wrapper.spotify.models.AlbumType;
+import com.wrapper.spotify.models.SimpleAlbum;
 
 public class Albums {
 
-	public static Album achtungBaby() {
-		List<Track> trackList = Arrays.asList(
+	public static SimpleAlbum achtungBaby() {
+		/*List<Track> trackList = Arrays.asList(
 				new Track("Zoo Station"),
 				new Track("Even Better Than the Real Thing"),
 				new Track("One"),
@@ -22,12 +19,15 @@ public class Albums {
 				new Track("Ultraviolet (Light My Way)"),
 				new Track("Acrobat"),
 				new Track("Love Is Blindness"));
-		
-		return new Album(Artists.u2(), trackList);
+		return new Album(Artists.u2(), trackList);*/
+		SimpleAlbum album = new SimpleAlbum();
+		album.setName("Achtung Baby");
+		album.setAlbumType(AlbumType.ALBUM);
+		return album;
 	}
 
-	public static Album marqueeMoon() {
-		List<Track> trackList = Arrays.asList(
+	public static SimpleAlbum marqueeMoon() {
+		/*List<Track> trackList = Arrays.asList(
 				new Track("See No Evil"),
 				new Track("Venus"),
 				new Track("Friction"),
@@ -37,11 +37,15 @@ public class Albums {
 				new Track("Prove It"),
 				new Track("Torn Curtain"));
 		
-		return new Album(Artists.television(), trackList);
+		return new Album(Artists.television(), trackList);*/
+		SimpleAlbum album = new SimpleAlbum();
+		album.setName("Marquee Moon");
+		album.setAlbumType(AlbumType.ALBUM);
+		return album;
 	}
 	
-	public static Album miloGoesToCollege() {
-		List<Track> trackList = Arrays.asList(
+	public static SimpleAlbum miloGoesToCollege() {
+		/*List<Track> trackList = Arrays.asList(
 				new Track("Myage"),
 				new Track("I Wanna Be A Bear"),
 				new Track("I'm Not A Loser"),
@@ -58,11 +62,15 @@ public class Albums {
 				new Track("Bikeage"),
 				new Track("Jean Is Dead"));
 		
-		return new Album(Artists.descendents(), trackList);
+		return new Album(Artists.descendents(), trackList);*/
+		SimpleAlbum album = new SimpleAlbum();
+		album.setName("Milo Goes To College");
+		album.setAlbumType(AlbumType.ALBUM);
+		return album;
 	}
 
-	public static Album theEnglishRiviera() {
-		List<Track> trackList = Arrays.asList(
+	public static SimpleAlbum theEnglishRiviera() {
+		/*List<Track> trackList = Arrays.asList(
 				new Track("The English Riviera"), 
 				new Track("We Broke Free"),
 				new Track("Everything Goes My Way"), 
@@ -75,11 +83,15 @@ public class Albums {
 				new Track("Some Written"), 
 				new Track("Love Underlined"));
 
-		return new Album(Artists.metronomy(), trackList);
+		return new Album(Artists.metronomy(), trackList);*/
+		SimpleAlbum album = new SimpleAlbum();
+		album.setName("The English Riviera");
+		album.setAlbumType(AlbumType.ALBUM);
+		return album;
 	}
 	
-	public static Album theJoshuaTree() {
-		List<Track> tracklist = Arrays.asList(
+	public static SimpleAlbum theJoshuaTree() {
+		/*List<Track> tracklist = Arrays.asList(
 				new Track("Where The Streets Have No Name"),
 				new Track("I Still Haven't Found What I'm Looking For"),
 				new Track("With Or Without You"),
@@ -92,7 +104,11 @@ public class Albums {
 				new Track("Exit"),
 				new Track("Mothers Of The Disappeared"));
 		
-		return new Album(Artists.u2(), tracklist);
+		return new Album(Artists.u2(), tracklist);*/
+		SimpleAlbum album = new SimpleAlbum();
+		album.setName("The Joshua Tree");
+		album.setAlbumType(AlbumType.ALBUM);
+		return album;
 	}
 	
 }

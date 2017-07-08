@@ -2,27 +2,27 @@ package br.com.pabloldias.sorting;
 
 import java.util.List;
 
-import br.com.pabloldias.playlist.Album;
+import com.wrapper.spotify.models.SimpleAlbum;
 
 public class ListSplitter {
 
-	private List<Album> firstList;
-	private List<Album> secondList;
+	private List<SimpleAlbum> firstList;
+	private List<SimpleAlbum> secondList;
 
-	public ListSplitter(List<Album> albums) {
+	public ListSplitter(List<SimpleAlbum> albums) {
 		splitList(albums);
 	}
 	
-	private void splitList(List<Album> albums) {
+	private void splitList(List<SimpleAlbum> albums) {
 		this.firstList = albums.subList(0, albums.size() / 2);
 		this.secondList = albums.subList(albums.size() / 2, albums.size());
 	}
 
-	public List<Album> getFirstList() {
+	public List<SimpleAlbum> getFirstList() {
 		return firstList;
 	}
 
-	public List<Album> getSecondList() {
+	public List<SimpleAlbum> getSecondList() {
 		return secondList;
 	}
 
