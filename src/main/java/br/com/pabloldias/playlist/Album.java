@@ -8,7 +8,7 @@ public class Album extends SimpleAlbum {
 
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(this.getUri());
+		return Objects.hash(this.getUri());
 	}
 
 	@Override
