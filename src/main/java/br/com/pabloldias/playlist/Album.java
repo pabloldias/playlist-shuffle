@@ -1,41 +1,14 @@
 package br.com.pabloldias.playlist;
 
-import java.util.List;
+import java.util.Objects;
 
-public class Album {
-	
-	private Artist artist;
+import com.wrapper.spotify.models.SimpleAlbum;
 
-	private List<Track> trackList;
-
-	public Album(Artist artist, List<Track> trackList) {
-		this.artist = artist;
-		this.trackList = trackList;
-	}
-
-	public Artist getArtist() {
-		return artist;
-	}
-	
-	public void setArtist(Artist artist) {
-		this.artist = artist;
-	}
-	
-	public List<Track> getTrackList() {
-		return trackList;
-	}
-	
-	public void setTrackList(List<Track> trackList) {
-		this.trackList = trackList;
-	}
+public class Album extends SimpleAlbum {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((artist == null) ? 0 : artist.hashCode());
-		result = prime * result + ((trackList == null) ? 0 : trackList.hashCode());
-		return result;
+		return Objects.hashCode(this.getUri());
 	}
 
 	@Override
@@ -47,16 +20,6 @@ public class Album {
 		if (getClass() != obj.getClass())
 			return false;
 		Album other = (Album) obj;
-		if (artist == null) {
-			if (other.artist != null)
-				return false;
-		} else if (!artist.equals(other.artist))
-			return false;
-		if (trackList == null) {
-			if (other.trackList != null)
-				return false;
-		} else if (!trackList.equals(other.trackList))
-			return false;
-		return true;
+		return Objects.equals(this.getUri(), other.getUri());
 	}
 }
