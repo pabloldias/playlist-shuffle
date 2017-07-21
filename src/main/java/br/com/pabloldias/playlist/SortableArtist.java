@@ -1,10 +1,10 @@
 package br.com.pabloldias.playlist;
 
-public class Artist {
+public class SortableArtist {
 
 	private String name;
 
-	public Artist(String name) {
+	public SortableArtist(String name) {
 		this.setName(name);
 	}
 
@@ -32,7 +32,7 @@ public class Artist {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Artist other = (Artist) obj;
+		SortableArtist other = (SortableArtist) obj;
 		if (name == null) {
 			if (other.name != null)
 				return false;

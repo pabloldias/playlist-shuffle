@@ -17,7 +17,9 @@ public class SpotifyPlaylistShuffle implements PlaylistSorter {
 
 	@Override
 	public List<PlaylistTrack> sort(List<PlaylistTrack> playlistTracks) {
-		Map<SimpleAlbum, List<PlaylistTrack>> albums = getAlbums(playlistTracks);
+		AlbumTracksMapper mapper = new AlbumTracksMapper();
+		Map<SimpleAlbum, List<PlaylistTrack>> albums = mapper.map(playlistTracks);
+		//Map<SimpleAlbum, List<PlaylistTrack>> albums = getAlbums(playlistTracks);
 		List<SimpleAlbum> sortedAlbums = getSortedAlbums(albums.keySet().stream().collect(Collectors.toList()));
 		return getSortedPlaylistTracks(sortedAlbums, albums);
 	}

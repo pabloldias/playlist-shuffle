@@ -1,10 +1,10 @@
 package br.com.pabloldias.playlist;
 
-public class Track {
+public class SortableTrack {
 
 	private String title;
 
-	public Track(String title) {
+	public SortableTrack(String title) {
 		this.title = title;
 	}
 
@@ -32,7 +32,7 @@ public class Track {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Track other = (Track) obj;
+		SortableTrack other = (SortableTrack) obj;
 		if (title == null) {
 			if (other.title != null)
 				return false;

@@ -2,11 +2,11 @@ package br.com.pabloldias.builder;
 
 import com.wrapper.spotify.models.AlbumType;
 
-import br.com.pabloldias.playlist.Album;
+import br.com.pabloldias.playlist.SortableAlbum;
 
 public class Albums {
 
-	public static Album achtungBaby() {
+	public static SortableAlbum achtungBaby() {
 		/*List<Track> trackList = Arrays.asList(
 				new Track("Zoo Station"),
 				new Track("Even Better Than the Real Thing"),
@@ -21,13 +21,13 @@ public class Albums {
 				new Track("Acrobat"),
 				new Track("Love Is Blindness"));
 		return new Album(Artists.u2(), trackList);*/
-		Album album = new Album();
+		SortableAlbum album = new SortableAlbum();
 		album.setName("Achtung Baby");
 		album.setAlbumType(AlbumType.ALBUM);
 		return album;
 	}
 
-	public static Album marqueeMoon() {
+	public static SortableAlbum marqueeMoon() {
 		/*List<Track> trackList = Arrays.asList(
 				new Track("See No Evil"),
 				new Track("Venus"),
@@ -39,13 +39,13 @@ public class Albums {
 				new Track("Torn Curtain"));
 		
 		return new Album(Artists.television(), trackList);*/
-		Album album = new Album();
+		SortableAlbum album = new SortableAlbum();
 		album.setName("Marquee Moon");
 		album.setAlbumType(AlbumType.ALBUM);
 		return album;
 	}
 	
-	public static Album miloGoesToCollege() {
+	public static SortableAlbum miloGoesToCollege() {
 		/*List<Track> trackList = Arrays.asList(
 				new Track("Myage"),
 				new Track("I Wanna Be A Bear"),
@@ -64,13 +64,13 @@ public class Albums {
 				new Track("Jean Is Dead"));
 		
 		return new Album(Artists.descendents(), trackList);*/
-		Album album = new Album();
+		SortableAlbum album = new SortableAlbum();
 		album.setName("Milo Goes To College");
 		album.setAlbumType(AlbumType.ALBUM);
 		return album;
 	}
 
-	public static Album theEnglishRiviera() {
+	public static SortableAlbum theEnglishRiviera() {
 		/*List<Track> trackList = Arrays.asList(
 				new Track("The English Riviera"), 
 				new Track("We Broke Free"),
@@ -85,13 +85,13 @@ public class Albums {
 				new Track("Love Underlined"));
 
 		return new Album(Artists.metronomy(), trackList);*/
-		Album album = new Album();
+		SortableAlbum album = new SortableAlbum();
 		album.setName("The English Riviera");
 		album.setAlbumType(AlbumType.ALBUM);
 		return album;
 	}
 	
-	public static Album theJoshuaTree() {
+	public static SortableAlbum theJoshuaTree() {
 		/*List<Track> tracklist = Arrays.asList(
 				new Track("Where The Streets Have No Name"),
 				new Track("I Still Haven't Found What I'm Looking For"),
@@ -106,7 +106,7 @@ public class Albums {
 				new Track("Mothers Of The Disappeared"));
 		
 		return new Album(Artists.u2(), tracklist);*/
-		Album album = new Album();
+		SortableAlbum album = new SortableAlbum();
 		album.setName("The Joshua Tree");
 		album.setAlbumType(AlbumType.ALBUM);
 		return album;

@@ -4,7 +4,7 @@ import java.util.Objects;
 
 import com.wrapper.spotify.models.SimpleAlbum;
 
-public class Album extends SimpleAlbum {
+public class SortableAlbum extends SimpleAlbum {
 
 	@Override
 	public int hashCode() {
@@ -19,7 +19,7 @@ public class Album extends SimpleAlbum {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Album other = (Album) obj;
+		SortableAlbum other = (SortableAlbum) obj;
 		return Objects.equals(this.getUri(), other.getUri());
 	}
 }
