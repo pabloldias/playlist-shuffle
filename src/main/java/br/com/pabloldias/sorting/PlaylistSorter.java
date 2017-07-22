@@ -6,6 +6,6 @@ import com.wrapper.spotify.models.PlaylistTrack;
 
 public interface PlaylistSorter {
 
-	List<PlaylistTrack> sort(List<PlaylistTrack> playlistTracks);
+	List<String> sort(List<PlaylistTrack> playlistTracks);
 
 }

@@ -7,19 +7,18 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.wrapper.spotify.models.SimpleAlbum;
-
-import br.com.pabloldias.builder.Albums;
+import br.com.pabloldias.builder.SortableAlbums;
+import br.com.pabloldias.playlist.SortableAlbum;
 
 public class ListSplitterTest {
 
 	@Test
 	public void testEmptyList() {
-		List<SimpleAlbum> albums = Collections.emptyList();
+		List<SortableAlbum> albums = Collections.emptyList();
 		ListSplitter lists = new ListSplitter(albums);
 		
-		List<SimpleAlbum> firstList = Collections.emptyList();
-		List<SimpleAlbum> secondList = Collections.emptyList();
+		List<SortableAlbum> firstList = Collections.emptyList();
+		List<SortableAlbum> secondList = Collections.emptyList();
 		
 		Assert.assertEquals(firstList, lists.getFirstList());
 		Assert.assertEquals(secondList, lists.getSecondList());
@@ -27,11 +26,11 @@ public class ListSplitterTest {
 	
 	@Test
 	public void testListWithAnUniqueAlbum() {
-		List<SimpleAlbum> albums = Arrays.asList(Albums.achtungBaby());
+		List<SortableAlbum> albums = Arrays.asList(SortableAlbums.achtungBaby());
 		ListSplitter lists = new ListSplitter(albums);
 		
-		List<SimpleAlbum> firstList = Collections.emptyList();
-		List<SimpleAlbum> secondList = Arrays.asList(Albums.achtungBaby());
+		List<SortableAlbum> firstList = Collections.emptyList();
+		List<SortableAlbum> secondList = Arrays.asList(SortableAlbums.achtungBaby());
 		
 		Assert.assertEquals(firstList, lists.getFirstList());
 		Assert.assertEquals(secondList, lists.getSecondList());
@@ -39,13 +38,13 @@ public class ListSplitterTest {
 	
 	@Test
 	public void testListWithTwoAlbums() {
-		List<SimpleAlbum> albums = Arrays.asList(
-				Albums.achtungBaby(),
-				Albums.marqueeMoon());
+		List<SortableAlbum> albums = Arrays.asList(
+				SortableAlbums.achtungBaby(),
+				SortableAlbums.marqueeMoon());
 		ListSplitter lists = new ListSplitter(albums);
 
-		List<SimpleAlbum> firstList = Arrays.asList(Albums.achtungBaby());
-		List<SimpleAlbum> secondList = Arrays.asList(Albums.marqueeMoon());
+		List<SortableAlbum> firstList = Arrays.asList(SortableAlbums.achtungBaby());
+		List<SortableAlbum> secondList = Arrays.asList(SortableAlbums.marqueeMoon());
 		
 		Assert.assertEquals(firstList, lists.getFirstList());
 		Assert.assertEquals(secondList, lists.getSecondList());
@@ -53,17 +52,17 @@ public class ListSplitterTest {
 	
 	@Test
 	public void testListWithThreeAlbums() {
-		List<SimpleAlbum> albums = Arrays.asList(
-				Albums.achtungBaby(),
-				Albums.marqueeMoon(),
-				Albums.miloGoesToCollege());
+		List<SortableAlbum> albums = Arrays.asList(
+				SortableAlbums.achtungBaby(),
+				SortableAlbums.marqueeMoon(),
+				SortableAlbums.miloGoesToCollege());
 
 		ListSplitter lists = new ListSplitter(albums);
 
-		List<SimpleAlbum> firstList = Arrays.asList(Albums.achtungBaby());
-		List<SimpleAlbum> secondList = Arrays.asList(
-				Albums.marqueeMoon(),
-				Albums.miloGoesToCollege());
+		List<SortableAlbum> firstList = Arrays.asList(SortableAlbums.achtungBaby());
+		List<SortableAlbum> secondList = Arrays.asList(
+				SortableAlbums.marqueeMoon(),
+				SortableAlbums.miloGoesToCollege());
 		
 		Assert.assertEquals(firstList, lists.getFirstList());
 		Assert.assertEquals(secondList, lists.getSecondList());
@@ -71,20 +70,20 @@ public class ListSplitterTest {
 	
 	@Test
 	public void testListWithFourAlbums() {
-		List<SimpleAlbum> albums = Arrays.asList(
-				Albums.achtungBaby(),
-				Albums.marqueeMoon(),
-				Albums.miloGoesToCollege(),
-				Albums.theEnglishRiviera());
+		List<SortableAlbum> albums = Arrays.asList(
+				SortableAlbums.achtungBaby(),
+				SortableAlbums.marqueeMoon(),
+				SortableAlbums.miloGoesToCollege(),
+				SortableAlbums.theEnglishRiviera());
 		
 		ListSplitter lists = new ListSplitter(albums);
 
-		List<SimpleAlbum> firstList = Arrays.asList(
-				Albums.achtungBaby(),
-				Albums.marqueeMoon());
-		List<SimpleAlbum> secondList = Arrays.asList(
-				Albums.miloGoesToCollege(),
-				Albums.theEnglishRiviera());
+		List<SortableAlbum> firstList = Arrays.asList(
+				SortableAlbums.achtungBaby(),
+				SortableAlbums.marqueeMoon());
+		List<SortableAlbum> secondList = Arrays.asList(
+				SortableAlbums.miloGoesToCollege(),
+				SortableAlbums.theEnglishRiviera());
 		
 		Assert.assertEquals(firstList, lists.getFirstList());
 		Assert.assertEquals(secondList, lists.getSecondList());		

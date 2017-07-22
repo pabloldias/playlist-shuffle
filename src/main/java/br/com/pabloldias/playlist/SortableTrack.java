@@ -1,11 +1,17 @@
 package br.com.pabloldias.playlist;
 
+import java.util.Objects;
+
+import com.wrapper.spotify.models.Track;
+
 public class SortableTrack {
 
 	private String title;
+	private String uri;
 
-	public SortableTrack(String title) {
-		this.title = title;
+	public SortableTrack(Track track) {
+		this.title = track.getName();
+		this.uri = track.getUri();
 	}
 
 	public String getTitle() {
@@ -15,13 +21,18 @@ public class SortableTrack {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+	
+	public String getUri() {
+		return uri;
+	}
+	
+	public void setUri(String uri) {
+		this.uri = uri;
+	}
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((title == null) ? 0 : title.hashCode());
-		return result;
+		return Objects.hash(this.getUri(), this.getTitle());
 	}
 
 	@Override
@@ -33,12 +44,8 @@ public class SortableTrack {
 		if (getClass() != obj.getClass())
 			return false;
 		SortableTrack other = (SortableTrack) obj;
-		if (title == null) {
-			if (other.title != null)
-				return false;
-		} else if (!title.equals(other.title))
-			return false;
-		return true;
+		return Objects.equals(this.getUri(), other.getUri())
+				&& Objects.equals(this.getTitle(), other.getTitle());
 	}
 
 }

@@ -1,25 +1,27 @@
 package br.com.pabloldias.sorting;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.wrapper.spotify.models.PlaylistTrack;
-import com.wrapper.spotify.models.SimpleAlbum;
+import com.wrapper.spotify.models.Track;
+
+import br.com.pabloldias.playlist.SortableAlbum;
+import br.com.pabloldias.playlist.SortableTrack;
 
 public class AlbumTracksMapper {
 
-	public Map<SimpleAlbum, List<PlaylistTrack>> map(List<PlaylistTrack> playlistTracks) {
-		Map<SimpleAlbum, List<PlaylistTrack>> albums = new HashMap<>();
+	public List<SortableAlbum> map(List<PlaylistTrack> playlistTracks) {
+		List<SortableAlbum> albums = new ArrayList<>();
 		for (PlaylistTrack playlistTrack : playlistTracks) {
-			SimpleAlbum album = playlistTrack.getTrack().getAlbum();
-			if (albums.containsKey(album)) {
-				albums.get(album).add(playlistTrack);
+			Track track = playlistTrack.getTrack();
+			SortableAlbum album = new SortableAlbum(track.getAlbum());
+			Integer i = albums.indexOf(album);
+			if (i >= 0) {
+				albums.get(i).addTrack(new SortableTrack(track));
 			} else {
-				List<PlaylistTrack> albumTracks = new ArrayList<>();
-				albumTracks.add(playlistTrack);
-				albums.put(album, albumTracks);
+				album.addTrack(new SortableTrack(track));
+				albums.add(album);
 			}
 		}
 		return albums;
