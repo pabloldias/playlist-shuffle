@@ -48,4 +48,9 @@ public class SortableTrack {
 				&& Objects.equals(this.getTitle(), other.getTitle());
 	}
 
+	@Override
+	public String toString() {
+		return "SortableTrack [title=" + title + "]";
+	}
+
 }

@@ -160,7 +160,9 @@ public class SpotifyService {
 
 	private Optional<Playlist> createPlaylist(PlaylistInfo playlistInfo) {
 		PlaylistCreationRequest playlistCreationRequest = api
-				.createPlaylist(properties.getUserId(), playlistInfo.getName()).publicAccess(true).build();
+				.createPlaylist(properties.getUserId(), playlistInfo.getName())
+				.publicAccess(true)
+				.build();
 		try {
 			return Optional.of(playlistCreationRequest.get());
 		} catch (IOException | WebApiException e) {
