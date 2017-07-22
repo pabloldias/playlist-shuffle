@@ -14,7 +14,7 @@ public class PlaylistTracks {
 		Track track = new Track();
 		track.setAlbum(album);
 		track.setName(name);
-		track.setUri(name);
+		track.setUri(album.getName() + name);
 
 		PlaylistTrack playlistTrack = new PlaylistTrack();
 		playlistTrack.setTrack(track);

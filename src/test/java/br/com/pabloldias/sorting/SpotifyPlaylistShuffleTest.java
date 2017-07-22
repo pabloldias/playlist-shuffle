@@ -1,80 +1,79 @@
 package br.com.pabloldias.sorting;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.wrapper.spotify.models.SimpleAlbum;
+import com.wrapper.spotify.models.PlaylistTrack;
 
-import br.com.pabloldias.builder.Albums;
+import br.com.pabloldias.builder.PlaylistTrackUris;
+import br.com.pabloldias.builder.PlaylistTracks;
 
 public class SpotifyPlaylistShuffleTest {
 	
 	@Test
 	public void shufflePlaylistWithAnUniqueAlbum() {
-		List<SimpleAlbum> expectedPlaylist = Arrays.asList(
-				Albums.achtungBaby());
-		List<SimpleAlbum> originalPlaylist = Arrays.asList(
-				Albums.achtungBaby());
+		List<PlaylistTrack> originalPlaylist = PlaylistTracks.achtungBaby();
+		List<String> expectedPlaylist = PlaylistTrackUris.achtungBaby();
 
 		PlaylistSorter sorter = new SpotifyPlaylistShuffle();
-		List<SimpleAlbum> actualPlaylist = sorter.sort(originalPlaylist);
+		List<String> actualPlaylist = sorter.sort(originalPlaylist);
 
 		Assert.assertEquals(expectedPlaylist, actualPlaylist);
 	}
 	
 	@Test
 	public void shufflePlaylistWithTwoAlbums() {	
-		List<SimpleAlbum> originalPlaylist = Arrays.asList(
-				Albums.marqueeMoon(),
-				Albums.achtungBaby());
+		List<PlaylistTrack> originalPlaylist = new ArrayList<>();
+		originalPlaylist.addAll(PlaylistTracks.achtungBaby());
+		originalPlaylist.addAll(PlaylistTracks.marqueeMoon());
+		
+		List<String> expectedPlaylist = new ArrayList<>();
+		expectedPlaylist.addAll(PlaylistTrackUris.marqueeMoon());
+		expectedPlaylist.addAll(PlaylistTrackUris.achtungBaby());
 
-		List<SimpleAlbum> expectedPlaylist = Arrays.asList(
-				Albums.achtungBaby(),
-				Albums.marqueeMoon());
-		
-		PlaylistSorter sorter = new SpotifyPlaylistShuffle();	
-		List<SimpleAlbum> actualPlaylist = sorter.sort(originalPlaylist);
-		
+		PlaylistSorter sorter = new SpotifyPlaylistShuffle();
+		List<String> actualPlaylist = sorter.sort(originalPlaylist);
+
 		Assert.assertEquals(expectedPlaylist, actualPlaylist);
 	}
 	
 	@Test
-	public void shufflePlaylistWithThreeAlbums() {	
-		List<SimpleAlbum> originalPlaylist = Arrays.asList(
-				Albums.marqueeMoon(),
-				Albums.achtungBaby(),
-				Albums.miloGoesToCollege());
-
-		List<SimpleAlbum> expectedPlaylist = Arrays.asList(
-				Albums.achtungBaby(),
-				Albums.marqueeMoon(),
-				Albums.miloGoesToCollege());
+	public void shufflePlaylistWithThreeAlbums() {
+		List<PlaylistTrack> originalPlaylist = new ArrayList<>();
+		originalPlaylist.addAll(PlaylistTracks.marqueeMoon());
+		originalPlaylist.addAll(PlaylistTracks.achtungBaby());
+		originalPlaylist.addAll(PlaylistTracks.miloGoesToCollege());
+		
+		List<String> expectedPlaylist = new ArrayList<>();
+		expectedPlaylist.addAll(PlaylistTrackUris.achtungBaby());
+		expectedPlaylist.addAll(PlaylistTrackUris.marqueeMoon());
+		expectedPlaylist.addAll(PlaylistTrackUris.miloGoesToCollege());
 		
 		PlaylistSorter sorter = new SpotifyPlaylistShuffle();	
-		List<SimpleAlbum> actualPlaylist = sorter.sort(originalPlaylist);
+		List<String> actualPlaylist = sorter.sort(originalPlaylist);
 		
 		Assert.assertEquals(expectedPlaylist, actualPlaylist);
 	}
 
 	@Test
 	public void shufflePlaylistWithFourAlbums() {	
-		List<SimpleAlbum> originalPlaylist = Arrays.asList(
-				Albums.marqueeMoon(),
-				Albums.achtungBaby(),
-				Albums.miloGoesToCollege(),
-				Albums.theEnglishRiviera());
-
-		List<SimpleAlbum> expectedPlaylist = Arrays.asList(
-				Albums.miloGoesToCollege(),
-				Albums.marqueeMoon(),
-				Albums.theEnglishRiviera(),
-				Albums.achtungBaby());
+		List<PlaylistTrack> originalPlaylist = new ArrayList<>();
+		originalPlaylist.addAll(PlaylistTracks.marqueeMoon());
+		originalPlaylist.addAll(PlaylistTracks.achtungBaby());
+		originalPlaylist.addAll(PlaylistTracks.miloGoesToCollege());
+		originalPlaylist.addAll(PlaylistTracks.theEnglishRiviera());
+		
+		List<String> expectedPlaylist = new ArrayList<>();
+		expectedPlaylist.addAll(PlaylistTrackUris.miloGoesToCollege());
+		expectedPlaylist.addAll(PlaylistTrackUris.marqueeMoon());
+		expectedPlaylist.addAll(PlaylistTrackUris.theEnglishRiviera());
+		expectedPlaylist.addAll(PlaylistTrackUris.achtungBaby());
 		
 		PlaylistSorter sorter = new SpotifyPlaylistShuffle();	
-		List<SimpleAlbum> actualPlaylist = sorter.sort(originalPlaylist);
+		List<String> actualPlaylist = sorter.sort(originalPlaylist);
 		
 		Assert.assertEquals(expectedPlaylist, actualPlaylist);
 	}

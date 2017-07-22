@@ -102,22 +102,20 @@ public class SpotifyService {
 
 	}
 
-	private void addTracks(Playlist playlist, List<PlaylistTrack> playlistTracks) {
-		List<String> tracksToAdd = getTrackUris(playlistTracks);
-		
+	private void addTracks(Playlist playlist, List<String> uris) {
 		Integer offset = 0;
 		AddTrackToPlaylistRequest request;
 		Boolean hasPages = true;
 
-		System.out.println(tracksToAdd.size());
+		System.out.println(uris.size());
 		while (hasPages) {
 			request = api
-					.addTracksToPlaylist(properties.getUserId(), playlist.getId(), getPageTracks(tracksToAdd, offset))
+					.addTracksToPlaylist(properties.getUserId(), playlist.getId(), getPageTracks(uris, offset))
 					.build();
 			try {
 				request.get();
 				offset += PAGE_SIZE;
-				if (offset > tracksToAdd.size()) {
+				if (offset > uris.size()) {
 					hasPages = false;					
 				}
 				System.out.println(offset);
@@ -130,14 +128,6 @@ public class SpotifyService {
 
 	private List<String> getPageTracks(List<String> tracksToAdd, Integer offset) {
 		return tracksToAdd.subList(offset, Math.min(offset + PAGE_SIZE, tracksToAdd.size()));
-	}
-
-	private List<String> getTrackUris(List<PlaylistTrack> playlistTracks) {
-		List<String> tracksToAdd = new ArrayList<>(playlistTracks.size());
-		for (PlaylistTrack playlistTrack : playlistTracks) {
-			tracksToAdd.add(playlistTrack.getTrack().getUri());
-		}
-		return tracksToAdd;
 	}
 
 	private List<PlaylistTrack> getPlaylistTracks(PlaylistInfo playlistInfo) {
